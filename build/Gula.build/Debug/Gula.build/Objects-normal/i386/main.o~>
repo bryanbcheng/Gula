@@ -1,0 +1,3 @@
+/Users/bryancheng/Projects/Gula/Gula/main.cpp: In function 'void Setup()':
+/Users/bryancheng/Projects/Gula/Gula/main.cpp:91: error: no matching function for call to 'Grid::Setup(size_t, size_t)'
+/Users/bryancheng/Projects/Gula/Gula/grid.h:18: note: candidates are: void Grid::Setup()

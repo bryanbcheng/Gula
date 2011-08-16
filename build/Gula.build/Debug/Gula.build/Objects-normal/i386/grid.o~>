@@ -1,0 +1,3 @@
+/Users/bryancheng/Projects/Gula/Gula/grid.cpp: In member function 'void Grid::Setup(int, int)':
+/Users/bryancheng/Projects/Gula/Gula/grid.cpp:19: error: request for member 'x_dim' in 'this', which is of non-class type 'Grid* const'
+/Users/bryancheng/Projects/Gula/Gula/grid.cpp:20: error: request for member 'y_dim' in 'this', which is of non-class type 'Grid* const'
