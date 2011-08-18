@@ -9,3 +9,27 @@
 
 #include "ingredient.h"
 
+Ingredient::Ingredient()
+{
+	
+}
+
+Ingredient::Ingredient(string n)
+{
+	name = n;
+}
+
+Ingredient::~Ingredient()
+{
+	
+}
+
+string Ingredient::getName()
+{
+	return name;
+}
+
+void Ingredient::setName(string n)
+{
+	name = n;
+}

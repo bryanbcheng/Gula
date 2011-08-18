@@ -13,14 +13,23 @@
 
 //#include "st.h"
 
+#include <string>
+using std::string;
+
 class Ingredient
 	{
 	public:
+		Ingredient();
+		Ingredient(string n);
+		~Ingredient();
+		
 		//void Setup();
 		//void Draw();
+		string getName();
+		void setName(string n);
 		
 	private:
-		char * name;
+		string name;
 		int id;
 	};
 

@@ -9,11 +9,15 @@
 
 // Standard libraries
 #include <stdlib.h>
+#include <stdio.h>
 #include <math.h>
 
 // Standard classes
 #include <string>
 #include <vector>
+using std::vector;
+#include <iostream>
+using namespace std;
 
 // Project classes
 #include "main.h"
@@ -34,8 +38,8 @@ int win_height = 512;
 // A grid to draw.
 static Grid grid;
 
-std::vector<Ingredient> ingredients; // list of all the ingredients
-std::vector<Instruction> instructions; // list of all the instructions
+vector<Ingredient *> ingredients; // list of all the ingredients
+vector<Instruction *> instructions; // list of all the instructions
 
 void Parse()
 {
@@ -88,7 +92,26 @@ void Parse()
 
 void Setup()
 {
-	grid.Setup(instructions.size(), ingredients.size());
+	Ingredient *i = new Ingredient(string("tomato"));
+	Ingredient *i2 = new Ingredient(string("eggs"));
+	ingredients.push_back(i);
+	ingredients.push_back(i2);
+	cout << i->getName();
+	
+	grid.Setup(instructions.size() + 1, ingredients.size());
+	
+	win_width = (instructions.size() + 1) * 60;
+	win_height = ingredients.size() * 60;
+	
+	cout << "height: " << win_height << " width: " << win_width;
+}
+
+void Generate()
+{
+	// Fills first column with ingredients
+	for (int i = 0; i < ingredients.size(); i++) {
+		grid.Draw(0, i, "image " + ingredients[i]->getName());
+	}
 }
 
 void display( void )
@@ -100,6 +123,7 @@ void display( void )
 
 void reshape( int w, int h )
 {
+	/*
 	glMatrixMode( GL_PROJECTION );
 	glLoadIdentity();
 	
@@ -108,7 +132,7 @@ void reshape( int w, int h )
 	
 	win_width = w;
 	win_height = h;
-	
+	*/
 	glutPostRedisplay();
 }
 
@@ -130,13 +154,15 @@ int main (int argc, char *argv[]) {
 	
 	glutInit( &argc, argv );
 	
+	Parse();
+	Setup();
+	
 	glutInitDisplayMode( GLUT_RGBA | GLUT_DOUBLE );
 	glutInitWindowSize( win_width, win_height );
 	
 	glutCreateWindow( "Gula" );
 	
-	Parse();
-	Setup();
+	Generate();
 	
 	glutDisplayFunc( display );
 	glutReshapeFunc( reshape );

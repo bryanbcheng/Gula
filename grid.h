@@ -12,15 +12,21 @@
 
 //#include "st.h"
 
+#include <string>
+using std::string;
+#include <vector>
+using std::vector;
+
 class Grid
 	{
 	public:
 		void Setup(int x, int y);
-		void Draw();
+		void Draw(int x, int y, string action);
 		
 	private:
-		float x_dim;
-		float y_dim;
+		int x_dim;
+		int y_dim;
+		vector<vector<bool> > gridMap;
 	};
 
 #endif // __GRID_H__

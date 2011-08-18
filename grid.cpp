@@ -7,6 +7,10 @@
  *
  */
 
+#include <stdio.h>
+#include <iostream>
+using namespace std;
+
 #include "grid.h"
 //#include "stgl.h"
 //#include "stglut.h"
@@ -16,15 +20,25 @@
  */
 void Grid::Setup(int x, int y)
 {
-	this.x_dim = x;
-	this.y_dim = y;
+	x_dim = x;
+	y_dim = y;
+	
+	// Set up sizes
+	gridMap.resize(x);
+	for (int i = 0; i < x; ++i)
+		gridMap[i].resize(y);
 }
 
 
 /**
  * Draw your grid here
  */
-void Grid::Draw()
+void Grid::Draw(int x, int y, string action)
 {
+	// parse action
 	
+	// if image call something to place the image in that block
+	
+	
+	gridMap[x][y] = true;
 }
