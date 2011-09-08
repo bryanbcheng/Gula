@@ -22,6 +22,7 @@ class Instruction
 	{
 	public:
 		Instruction();
+		Instruction(vector<Ingredient> _ingredients, string _action, string _quality, string _temperature, string _duration, string _time_measurement, string _location);
 		~Instruction();
 		
 		//void Setup();
@@ -30,10 +31,13 @@ class Instruction
 	private:
 		vector<Ingredient> ingredients;
 		string action;
-		float quanity;
-		string measurement;
-		float duration;
+		string quality;
+		string temperature;
+		
+		string duration;
 		string time_measurement;
+		
+		string location;
 	};
 
 #endif // __INSTRUCTION_H__

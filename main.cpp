@@ -18,12 +18,18 @@
 using std::vector;
 #include <iostream>
 using namespace std;
+#include <fstream>
+using namespace std;
 
 // Project classes
 #include "main.h"
 #include "grid.h"
 #include "ingredient.h"
 #include "instruction.h"
+
+// XML Parser
+#include "tinyxml.h"
+#include "tinystr.h"
 
 // OpenGL library
 #ifdef __APPLE__
@@ -41,62 +47,168 @@ static Grid grid;
 vector<Ingredient *> ingredients; // list of all the ingredients
 vector<Instruction *> instructions; // list of all the instructions
 
-void Parse()
+const char * getIndent( unsigned int numIndents )
 {
-	// parse the instructions
-	/*
-	FILE * configFile = fopen(configFname, "r");
-    char fileLine[BUFSIZ];
+    static const char * pINDENT = "                                      + ";
+    static const unsigned int LENGTH = strlen( pINDENT );
 	
-    if(!configFname)
-    {
-        fprintf(stderr, "Cannot open file %s\n", configFname);
-        return;
-    }
+    if ( numIndents > LENGTH ) numIndents = LENGTH;
 	
-    while( fgets(fileLine, BUFSIZ, configFile) )
+    return &pINDENT[ LENGTH-numIndents ];
+}
+
+void dump_to_stdout( TiXmlNode * pParent, unsigned int indent = 0 )
+{
+    if ( !pParent ) return;
+	
+    TiXmlText *pText;
+    int t = pParent->Type();
+    printf( "%s", getIndent( indent));
+	
+    switch ( t )
     {
-        std::string fileLineStr(fileLine);
-		
-        // Parse windows newline correctly ("\r\n")
-        if(fileLineStr[fileLineStr.size()-2] == '\r' &&
-		   fileLineStr[fileLineStr.size()-1] == '\n' )
-        {
-            fileLineStr[fileLineStr.size()-2] = '\0';
-        }
-        // replace newline with NULL character
-        else if(fileLineStr[fileLineStr.size()-1] == '\n')
-        {
-            fileLineStr[fileLineStr.size()-1] = '\0';
-        }
-		
-        // read valid attribute/value pairs
-        if(fileLineStr.substr(0,11) == "background1") {
-            strcpy(image1fnameOut, fileLineStr.substr(12).c_str());
-            *im1out = new STImage(image1fnameOut);
-        }
-        else if(fileLineStr.substr(0,11) == "background2") {
-            strcpy(image2fnameOut, fileLineStr.substr(12).c_str());
-            *im2out = new STImage(image2fnameOut);
-        }
-        else if(fileLineStr.substr(0,8) == "savefile") {
-            strcpy(saveFnameOut, fileLineStr.substr(9).c_str());
-        }
-        else if(fileLineStr.substr(0,8) == "loadfile") {
-            strcpy(loadFnameOut, fileLineStr.substr(9).c_str());
-        }
+		case TiXmlNode::TINYXML_DOCUMENT:
+			printf( "Document" );
+			break;
+			
+		case TiXmlNode::TINYXML_ELEMENT:
+			printf( "Element \"%s\"", pParent->Value() );
+			break;
+			
+		case TiXmlNode::TINYXML_COMMENT:
+			printf( "Comment: \"%s\"", pParent->Value());
+			break;
+			
+		case TiXmlNode::TINYXML_UNKNOWN:
+			printf( "Unknown" );
+			break;
+			
+		case TiXmlNode::TINYXML_TEXT:
+			pText = pParent->ToText();
+			printf( "Text: [%s]", pText->Value() );
+			break;
+			
+		case TiXmlNode::TINYXML_DECLARATION:
+			printf( "Declaration" );
+			break;
+		default:
+			break;
     }
-    fclose(configFile);
-	 */
+    printf( "\n" );
+	
+    TiXmlNode * pChild;
+	
+    for ( pChild = pParent->FirstChild(); pChild != 0; pChild = pChild->NextSibling()) 
+    {
+        dump_to_stdout( pChild, indent+2 );
+    }
+}
+
+void parse_ingredient( TiXmlNode * pParent )
+{
+	TiXmlNode * pChild;
+	
+	string name, quantity, measurement;
+	
+	for (pChild = pParent->FirstChild(); pChild != 0; pChild = pChild->NextSibling())
+	{
+		if (strcmp(pChild->Value(), "name") == 0) {
+			name = pChild->ToElement()->GetText();
+		} else if (strcmp(pChild->Value(), "quantity") == 0) {
+			quantity = pChild->ToElement()->GetText();
+		} else if (strcmp(pChild->Value(), "measurement") == 0) {
+			measurement = pChild->ToElement()->GetText();
+		}
+	}
+	
+	Ingredient *i = new Ingredient(name, quantity, measurement);
+	ingredients.push_back(i);
+}
+
+void parse_instruction( TiXmlNode * pParent )
+{
+	TiXmlNode * pChild;
+	
+	vector<Ingredient> _ingredients;
+	string action, quality, temperature, duration, time_measurement, location;
+	
+	for (pChild = pParent->FirstChild(); pChild != 0; pChild = pChild->NextSibling())
+	{
+		if (strcmp(pChild->Value(), "ingredient") == 0) {
+			//_ingredients = pChild->ToElement()->GetText();
+		} else if (strcmp(pChild->Value(), "action") == 0) {
+			action = pChild->ToElement()->GetText();
+		} else if (strcmp(pChild->Value(), "quality") == 0) {
+			quality = pChild->ToElement()->GetText();
+		} else if (strcmp(pChild->Value(), "temperature") == 0) {
+			temperature = pChild->ToElement()->GetText();
+		} else if (strcmp(pChild->Value(), "duration") == 0) {
+			duration = pChild->ToElement()->GetText();
+		} else if (strcmp(pChild->Value(), "time_measurement") == 0) {
+			time_measurement = pChild->ToElement()->GetText();
+		} else if (strcmp(pChild->Value(), "location") == 0) {
+			location = pChild->ToElement()->GetText();
+		}
+	}
+	
+	Instruction *i = new Instruction(_ingredients, action, quality, temperature, duration, time_measurement, location);
+	instructions.push_back(i);
+}
+
+void parse_xml( TiXmlNode * pRoot )
+{
+	int t = pRoot->Type();
+	
+	if (t == TiXmlNode::TINYXML_DOCUMENT)
+	{
+		TiXmlNode * pParent;
+		for (pParent = pRoot->FirstChild(); pParent != 0; pParent = pParent->NextSibling()) 
+		{
+			if (pParent->Type() == TiXmlNode::TINYXML_ELEMENT && strcmp(pParent->Value(), "recipe") == 0)
+			{
+				TiXmlNode * pChild;
+				for (pChild = pParent->FirstChild(); pChild != 0; pChild = pChild->NextSibling())
+				{
+					if (strcmp(pChild->Value(), "title") == 0) {
+						// title = pChild->FirstChild()->ToText()->Value();
+					} else if (strcmp(pChild->Value(), "description") == 0) {
+						// description = pChild->FirstChild()->ToText()->Value();
+					} else if (strcmp(pChild->Value(), "ingredient") == 0) {
+						parse_ingredient( pChild );
+					} else if (strcmp(pChild->Value(), "instruction") == 0) {
+						parse_instruction( pChild );
+					}
+				}
+			}
+		}
+	} else {
+		printf("Error (not document)");
+	}
+}
+
+void Parse()
+{	
+	const char* pFilename = "template.xml";
+	TiXmlDocument doc( pFilename );
+	
+	bool loadOkay = doc.LoadFile();
+	//cout << "load file: " << doc.LoadFile() << endl;
+	//cout << "error: " << doc.Error() << " id: " << doc.ErrorId() << " descp: " << doc.ErrorDesc() << " " << doc.ErrorRow() << ", " << doc.ErrorCol() << endl;
+	if (loadOkay)
+	{
+		printf("\n%s:\n", pFilename);
+		parse_xml( &doc );
+		//dump_to_stdout( &doc );
+	}
+	else
+	{
+		printf("Failed to load file \"%s\"\n", pFilename);
+	}
 }
 
 void Setup()
 {
-	Ingredient *i = new Ingredient(string("tomato"));
-	Ingredient *i2 = new Ingredient(string("eggs"));
-	ingredients.push_back(i);
-	ingredients.push_back(i2);
-	cout << i->getName();
+	//cout << "instruc size"
 	
 	grid.Setup(instructions.size() + 1, ingredients.size());
 	

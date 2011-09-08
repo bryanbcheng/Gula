@@ -20,7 +20,7 @@ class Ingredient
 	{
 	public:
 		Ingredient();
-		Ingredient(string n);
+		Ingredient(string _name, string _quantity, string _measurement);
 		~Ingredient();
 		
 		//void Setup();
@@ -30,6 +30,8 @@ class Ingredient
 		
 	private:
 		string name;
+		string quantity;
+		string measurement;
 		int id;
 	};
 

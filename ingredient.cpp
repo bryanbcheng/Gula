@@ -14,9 +14,11 @@ Ingredient::Ingredient()
 	
 }
 
-Ingredient::Ingredient(string n)
+Ingredient::Ingredient(string _name, string _quantity, string _measurement)
 {
-	name = n;
+	name = _name;
+	quantity = _quantity;
+	measurement = _measurement;
 }
 
 Ingredient::~Ingredient()

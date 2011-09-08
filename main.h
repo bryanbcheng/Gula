@@ -6,6 +6,3 @@
  *  Copyright 2011 Toucan Labs. All rights reserved.
  *
  */
-
-
-

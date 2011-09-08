@@ -8,6 +8,10 @@
 
 /* Begin PBXBuildFile section */
 		8DD76FB00486AB0100D96B5E /* Gula.1 in CopyFiles */ = {isa = PBXBuildFile; fileRef = C6A0FF2C0290799A04C91782 /* Gula.1 */; };
+		BB999EB61415944C0072ABE6 /* tinystr.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BB999E3F1415944C0072ABE6 /* tinystr.cpp */; };
+		BB999EC21415944C0072ABE6 /* tinyxml.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BB999EB21415944C0072ABE6 /* tinyxml.cpp */; };
+		BB999EC31415944C0072ABE6 /* tinyxmlerror.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BB999EB41415944C0072ABE6 /* tinyxmlerror.cpp */; };
+		BB999EC41415944C0072ABE6 /* tinyxmlparser.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BB999EB51415944C0072ABE6 /* tinyxmlparser.cpp */; };
 		BBEFA51C13FB29A600F4B064 /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BBEFA51B13FB29A600F4B064 /* OpenGL.framework */; };
 		BBEFA52013FB29B100F4B064 /* GLUT.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BBEFA51F13FB29B100F4B064 /* GLUT.framework */; };
 		BBEFA52513FB29EA00F4B064 /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BBEFA52413FB29EA00F4B064 /* main.cpp */; };
@@ -31,6 +35,12 @@
 
 /* Begin PBXFileReference section */
 		8DD76FB20486AB0100D96B5E /* Gula */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = Gula; sourceTree = BUILT_PRODUCTS_DIR; };
+		BB999E3F1415944C0072ABE6 /* tinystr.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = tinystr.cpp; sourceTree = "<group>"; };
+		BB999E401415944C0072ABE6 /* tinystr.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = tinystr.h; sourceTree = "<group>"; };
+		BB999EB21415944C0072ABE6 /* tinyxml.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = tinyxml.cpp; sourceTree = "<group>"; };
+		BB999EB31415944C0072ABE6 /* tinyxml.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = tinyxml.h; sourceTree = "<group>"; };
+		BB999EB41415944C0072ABE6 /* tinyxmlerror.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = tinyxmlerror.cpp; sourceTree = "<group>"; };
+		BB999EB51415944C0072ABE6 /* tinyxmlparser.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = tinyxmlparser.cpp; sourceTree = "<group>"; };
 		BBEFA51B13FB29A600F4B064 /* OpenGL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGL.framework; path = /System/Library/Frameworks/OpenGL.framework; sourceTree = "<absolute>"; };
 		BBEFA51F13FB29B100F4B064 /* GLUT.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GLUT.framework; path = /System/Library/Frameworks/GLUT.framework; sourceTree = "<absolute>"; };
 		BBEFA52313FB29EA00F4B064 /* main.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = main.h; sourceTree = "<group>"; };
@@ -72,6 +82,12 @@
 		08FB7795FE84155DC02AAC07 /* Source */ = {
 			isa = PBXGroup;
 			children = (
+				BB999E3F1415944C0072ABE6 /* tinystr.cpp */,
+				BB999E401415944C0072ABE6 /* tinystr.h */,
+				BB999EB21415944C0072ABE6 /* tinyxml.cpp */,
+				BB999EB31415944C0072ABE6 /* tinyxml.h */,
+				BB999EB41415944C0072ABE6 /* tinyxmlerror.cpp */,
+				BB999EB51415944C0072ABE6 /* tinyxmlparser.cpp */,
 				BBEFA52313FB29EA00F4B064 /* main.h */,
 				BBEFA52413FB29EA00F4B064 /* main.cpp */,
 				BBEFA58A13FB2E8600F4B064 /* grid.h */,
@@ -147,6 +163,10 @@
 				BBEFA58C13FB2E8600F4B064 /* grid.cpp in Sources */,
 				BBEFA5E513FB334000F4B064 /* ingredient.cpp in Sources */,
 				BBEFA5E813FB334A00F4B064 /* instruction.cpp in Sources */,
+				BB999EB61415944C0072ABE6 /* tinystr.cpp in Sources */,
+				BB999EC21415944C0072ABE6 /* tinyxml.cpp in Sources */,
+				BB999EC31415944C0072ABE6 /* tinyxmlerror.cpp in Sources */,
+				BB999EC41415944C0072ABE6 /* tinyxmlparser.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
